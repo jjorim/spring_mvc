@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jjorim.mapper.userMapper"> <!--여기 nameSpace는 DAOImpl에서 나중에 연결해줄 것 -->
+
+	<!-- 
+		mybatis-config.xml의 typeAlias에 등록해두지 않았다면 
+		
+		<select id="selectUser" resultType="com.jjorim.spring.user.dto.UserVO" >
+			SELECT ID, PW ,NAME FROM TEST
+		</select>
+		
+		이렇게 해야 한다.
+	-->
+	
+	<select id="selectUser" resultType="UserVO">
+		SELECT ID, PW ,NAME FROM TEST
+	</select>
+	
+</mapper>

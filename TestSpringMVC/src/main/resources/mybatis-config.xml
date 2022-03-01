@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <typeAliases> 태그를 통해 VO 클래스를 등록 -->
+<!-- mapper.xml 에서 VO 클래스를 mybatis-config.xml 등록한 이름으로 사용가능 -->
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd"> 
+
+<configuration> 
+
+	<typeAliases>
+			<!--  <typeAlias type="com.example.dto.MemberVO" alias="memberVO"/> -->
+			<!-- Mapper.xml에서 select 태그 작성시 resultType에 alias를 통해서 간소화 -->
+			<!-- com.jjorim.spring.user.dto.UserVo로 적을 것을 UserVO로 간단하게 적음 -->
+			<typeAlias type="com.jjorim.spring.user.dto.UserVO" alias="UserVO"/>
+	</typeAliases>
+
+</configuration>

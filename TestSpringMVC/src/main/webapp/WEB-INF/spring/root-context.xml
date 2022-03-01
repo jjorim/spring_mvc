@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 웹과 관련되지 않은 자원들에 대한 설정을 입력하는곳 -->
+<!-- MySQL과 MyBatis에 대한 설정을 해줌 -->
+<!-- 프로젝트의 어플리케이션 영역 설정하는 곳 -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- DataSource는 MySQL과 연결을 담당함, JDBC 커넥션을 처리하는 기능을 가지고 있어 DB와 연동하는 작업에 반드시 필요 -->
+	<!-- dataSource bean을 선언하여 DI 받을 수 있도록 설정 -->
+	<!-- dataSource 설정, spring-jdbc 모듈 사용, spring 에서 jdbc드라이버를 통해 mysql 서버에 접속할 수 있게 함 -->
+   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <!--  <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"> 이건 다른 예제 참고한 코드. 안쓴다.-->
+        <!--  <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property> -->
+        <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+        
+        <!-- 자신의 PC(로컬)에 MySql을 설치했을 경우, 3306은 MySQL 설치시 지정한 포트. -->
+        <!-- value="jdbc:mysql://127.0.0.1:3306/스키마이름?useSSL=false&amp;serverTimezone=UTC" -->
+        
+        <!-- value="jdbc:mysql://데이터베이스 주소:포트번호/스키마이름?useSSL=false&amp;serverTimezone=UTC" -->
+        <!-- <property name="url" value="jdbc:mysql://127.0.0.1:3306/spring_project_db"></property> -->
+        <!-- log4jdbc:  붙여서 MyBatis 로그 확인 가능함-->
+		<property name="url" value="jdbc:log4jdbc:mysql://127.0.0.1:3306/spring_project_db?useSSL=false"></property>
+        <!-- value="MySQL 계정" -->
+        <property name="username" value="root"></property>
+        <!-- value="비밀번호" -->
+        <property name="password" value="!jjorim@0325"></property>
+    </bean>
+		
+		
+	<!-- mybatis SqlSessionFactoryBean, mybatis-spring 모듈 사용 -->
+	<!-- DB와의 연결과 SQL의 실행에 대한 모든 것을 가진 객체: 나중에 DB에 연결해 데이터를 저장/수정/삭제/조회 할 경우 별도의 추가 설정 해줘야함 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        
+        <!-- configLocation: Mybatis 설정 기능을 활용 할 수 있도록 설정 파일을 읽어오는 부분 -->
+        <property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+        
+        <!-- mapperLocations: SQL문을 작성해둘 mapper.xml 파일을 읽어오는 부분 -->
+        <property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
+        <!-- <property name = "mapperLocations" value = "classpath*:com/jjorim/spring/**/*Mapper.xml"></property> -->
+        <!-- classpath의 위치: 프로젝트명/src/main/java(java소스 코드 넣는곳) 혹은 프로젝트명/src/main/resources(스프링 설정파일 넣는 곳) 가리킴 -->
+        <!-- classpath:/*/ 디렉토리 하위에 있는 디렉토리들 중 첫번째 하위 디렉토리만 해당, 단일파일 로딩 -->
+        <!-- classpath:/**/ 디렉토리 하위에 몇개의 하위 디렉토리들이 있어도 모두 인식 가능, 단일파일 로딩 -->
+        <!-- classpath*:  디렉토리의 파일을 모두 찾아냄, 복수개의 파일 로딩-->
+    </bean>	
+    
+    
+    
+    <!-- mybatis SqlSessionTemplate -->
+	<!-- 기본적인 트랜잭션 관리나 쓰레드 처리의 안정성 등을 보장하고, DB의 연결과 종료를 관리하는 부분 -->
+	<!-- 개발자가 직접 트랜잭션 관리나 db연결, 종료를 해야하는 작업을 줄일 수 있음 -->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
+        destroy-method="clearCache">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+	
+	<!-- mapper 인터페이스를 담을 패키지 지정, DAO 작업을 없애주는 거라고.. -->
+	<!-- <mybatis-spring:scan base-package="com.jjorim.mapper"/> -->
+	
+	<!-- bean 등록 -->
+	<!-- base-package에 component-scan을 할 패키지 경로를 명시해주면 해당 경로를 포함한 모든 하위 경로에 적용되고, 
+	애노테이션을 명시한 자바 파일들이 Bean으로 동록 되어 사용 가능해진다. -->
+	<context:component-scan base-package="com.jjorim.spring.user.dao"></context:component-scan>
+	<context:component-scan base-package="com.jjorim.spring.user.service"></context:component-scan>
+	
+	<!--ajax통신을 통해 리턴타입을 html이 아닌 Json으로 넘겨주기 위해서 필요한 작업-->
+	<mvc:annotation-driven/>
+	
+</beans>
