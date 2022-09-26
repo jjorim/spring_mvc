@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.jjorim.mapper.bookMapper"> <!-- DAOImpl와 연결 -->
+  
+  <select id="getBookList" resultType="BookVO">
+  	SELECT book_id, title, author, price, 
+  		DATE_FORMAT(create_date, '%Y-%m-%d %H:%i:%s') as cdate,
+  		DATE_FORMAT(update_date, '%Y-%m-%d %H:%i:%s') as udate 
+  	FROM tbl_book
+  	;
+  </select>
+  
+  </mapper>

@@ -2,12 +2,12 @@ package com.jjorim.spring.user.dto;
 
 public class UserVO {
 
-	// Å×ÀÌºí ÄÃ·³¿¡ ÇØ´çÇÏ´Â º¯¼ö »ı¼º
+	// í…Œì´ë¸” ì»¬ëŸ¼ì— í•´ë‹¹í•˜ëŠ” ë³€ìˆ˜ ìƒì„±
 	private String id;
     private String pw;
     private String name;
     
-    // °¢ º¯¼ö¿¡ ´ëÇÑ getter, setter ¸Ş¼­µå »ı¼º
+    // ê° ë³€ìˆ˜ì— ëŒ€í•œ getter, setter ë©”ì„œë“œ ìƒì„±
 	public String getId() {
 		return id;
 	}

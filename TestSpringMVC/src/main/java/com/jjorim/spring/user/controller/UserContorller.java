@@ -33,7 +33,7 @@ public class UserContorller {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		
-		map.put("msg","¼º°ø");
+		map.put("msg","ì„±ê³µ");
 		map.put("userList", userList);
 		
 		System.out.println(map);

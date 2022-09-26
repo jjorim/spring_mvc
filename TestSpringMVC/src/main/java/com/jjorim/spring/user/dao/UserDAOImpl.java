@@ -7,18 +7,18 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.jjorim.spring.user.dto.UserVO; // VO ¿¬°á
+import com.jjorim.spring.user.dto.UserVO; // VO ï¿½ï¿½ï¿½ï¿½
 
 @Repository
 public class UserDAOImpl implements UserDAO {
 	
-	// SqlSession ÁÖÀÔ UserMapper.xml¿¡ µî·ÏÇÑ Äõ¸®¹® ½ÇÇà
+	// SqlSession ì£¼ì… UserMapper.xmlì— ë“±ë¡í•œ ì¿¼ë¦¬ë¬¸ ì‹¤í–‰
 	@Inject
     private SqlSession sqlSession;
     
-    private static final String Namespace = "com.jjorim.mapper.userMapper"; // userMapper.xml¿¡ ¼±¾ğÇÑ namespace
+    private static final String Namespace = "com.jjorim.mapper.userMapper"; // userMapper.xmlì— ì„ ì–¸í•œ namespace
     
-    //Äõ¸® °á°ú µ¥ÀÌÅÍ(¿©·¯°³)¸¦ List·Î ¹Ş¾Æ¼­ ¸®ÅÏ
+    // ì¿¼ë¦¬ ê²°ê³¼ ë°ì´í„°(ì—¬ëŸ¬ê°œ)ë¥¼ Listë¡œ ë°›ì•„ì„œ ë¦¬í„´
     @Override
     public List<UserVO> selectUser() throws Exception {
  

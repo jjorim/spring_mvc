@@ -199,7 +199,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.7</version> <!-- 4.7 버전을 4.12로 수정 -->
-			<scope>test</scope> <!-- 테스트에서 SpringJUnit4ClassRunner를 임포트 못하는데 이 scope태그를 지우거나 직접 임포트해줘야함-->
+			<!--  <scope>test</scope> --><!-- 테스트에서 SpringJUnit4ClassRunner를 임포트 못하는데 이 scope태그를 지우거나 직접 임포트해줘야함-->
 		</dependency>        
 		
 		<!-- Spring-test -->
